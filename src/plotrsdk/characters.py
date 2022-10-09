@@ -63,7 +63,7 @@ class Characters:
     token_required = True
     params = {}
 
-    def get_characters(self):
+    def _get_characters(self):
         resource = "character"
         characters = LOTR().make_request(
             method="GET",
@@ -101,7 +101,7 @@ class Characters:
 
     def list(self, pagination={}, sorting={}, filtering={}):
         self.params = build_url_params(pagination, sorting, filtering)
-        return self.get_characters()
+        return self._get_characters()
 
     def next_page(self):
         if "page" not in self.params:
@@ -111,7 +111,7 @@ class Characters:
             self.params["page"] * self.params["limit"] + self.params["limit"]
         )
         self.params["page"] += 1
-        return self.get_characters()
+        return self._get_characters()
 
     def get_page(self, page):
         if "page" not in self.params:
@@ -122,7 +122,7 @@ class Characters:
             return
         self.params["page"] = page
         self.params["offset"] = (page - 1) * self.params["limit"]
-        return self.get_characters()
+        return self._get_characters()
 
     def get_character(self, _id) -> Character:
         resource = "character/{}".format(_id)

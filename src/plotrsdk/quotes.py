@@ -19,7 +19,7 @@ class Quotes:
     token_required = True
     params = {}
 
-    def get_quotes(self):
+    def _get_quotes(self):
         resource = "quote"
         quotes = LOTR().make_request(
             method="GET",
@@ -45,7 +45,7 @@ class Quotes:
 
     def list(self, pagination={}, sorting={}, filtering={}):
         self.params = build_url_params(pagination, sorting, filtering)
-        return self.get_quotes()
+        return self._get_quotes()
 
     def next_page(self):
         if "page" not in self.params:
@@ -55,7 +55,7 @@ class Quotes:
             self.params["page"] * self.params["limit"] + self.params["limit"]
         )
         self.params["page"] += 1
-        return self.get_quotes()
+        return self._get_quotes()
 
     def get_page(self, page):
         if "page" not in self.params:
@@ -66,7 +66,7 @@ class Quotes:
             return
         self.params["page"] = page
         self.params["offset"] = (page - 1) * self.params["limit"]
-        return self.get_quotes()
+        return self._get_quotes()
 
     def get_quote(self, _id) -> Quote:
         resource = "quote/{}".format(_id)

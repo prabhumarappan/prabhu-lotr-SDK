@@ -17,7 +17,7 @@ class Chapters:
     token_required = True
     params = {}
 
-    def get_chapters(self):
+    def _get_chapters(self):
         resource = "chapter"
         chapters = LOTR().make_request(
             method="GET",
@@ -43,7 +43,7 @@ class Chapters:
 
     def list(self, pagination={}, sorting={}, filtering={}):
         self.params = build_url_params(pagination, sorting, filtering)
-        return self.get_chapters()
+        return self._get_chapters()
 
     def next_page(self):
         if "page" not in self.params:
@@ -53,7 +53,7 @@ class Chapters:
             self.params["page"] * self.params["limit"] + self.params["limit"]
         )
         self.params["page"] += 1
-        return self.get_chapters()
+        return self._get_chapters()
 
     def get_page(self, page):
         if "page" not in self.params:
@@ -64,7 +64,7 @@ class Chapters:
             return
         self.params["page"] = page
         self.params["offset"] = (page - 1) * self.params["limit"]
-        return self.get_chapters()
+        return self._get_chapters()
 
     def get_chapter(self, _id) -> Chapter:
         resource = "chapter/{}".format(_id)

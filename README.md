@@ -111,3 +111,4 @@ b.get_book(<id>)
 # TODO
 - There is some code that is repeated (like each of the resource, have majority of the function same except the part where they have to convert JSON data into objects). Can create a super class and just the differeing functions can change
 - Incase of failures, we would want to do a retry requests with backoff
+- Pagination Resource should also be able to get the next page or a specific page

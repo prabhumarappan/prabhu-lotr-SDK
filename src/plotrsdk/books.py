@@ -41,7 +41,7 @@ class Books:
     token_required = False
     params = {}
 
-    def get_books(self):
+    def _get_books(self):
         resource = "book"
         books = LOTR().make_request(
             method="GET",
@@ -64,7 +64,7 @@ class Books:
 
     def list(self, pagination={}, sorting={}, filtering={}):
         self.params = build_url_params(pagination, sorting, filtering)
-        return self.get_books()
+        return self._get_books()
 
     def next_page(self):
         if "page" not in self.params:
@@ -74,7 +74,7 @@ class Books:
             self.params["page"] * self.params["limit"] + self.params["limit"]
         )
         self.params["page"] += 1
-        return self.get_books()
+        return self._get_books()
 
     def get_page(self, page):
         if "page" not in self.params:
@@ -85,7 +85,7 @@ class Books:
             return
         self.params["page"] = page
         self.params["offset"] = (page - 1) * self.params["limit"]
-        return self.get_books()
+        return self._get_books()
 
     def get_book(self, _id):
         resource = "book/{}".format(_id)

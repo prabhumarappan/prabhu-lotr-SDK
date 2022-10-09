@@ -57,7 +57,7 @@ class Movies:
     token_required = True
     params = {}
 
-    def get_movies(self):
+    def _get_movies(self):
         resource = "movie"
         movies = LOTR().make_request(
             method="GET",
@@ -92,7 +92,7 @@ class Movies:
 
     def list(self, pagination={}, sorting={}, filtering={}):
         self.params = build_url_params(pagination, sorting, filtering)
-        return self.get_movies()
+        return self._get_movies()
 
     def next_page(self):
         if "page" not in self.params:
@@ -102,7 +102,7 @@ class Movies:
             self.params["page"] * self.params["limit"] + self.params["limit"]
         )
         self.params["page"] += 1
-        return self.get_movies()
+        return self._get_movies()
 
     def get_page(self, page):
         if "page" not in self.params:
@@ -113,7 +113,7 @@ class Movies:
             return
         self.params["page"] = page
         self.params["offset"] = (page - 1) * self.params["limit"]
-        return self.get_movies()
+        return self._get_movies()
 
     def get_movie(self, _id) -> Movie:
         resource = "movie/{}".format(_id)
